@@ -1,9 +1,29 @@
-# Max_scale
+## Max_scale
+
 Getting Started with MariaDB Galera and MariaDB MaxScale on CentOS 7.x
 
-I. Giới thiệu
+## Mục lục
 
-   1 MariaDB
+---------------------------------------------
+
+### [I Giới thiệu](#I)
+- [1. Mariadeb](#1)
+- [2 Galera Cluster](#2)
+- [2MariaDB MaxScale](#3)
+
+#### [II. Cài đặt](#2)
+- [2.1 Cài đặt python3.6](#2.1)
+- [2.2 Cài đặt-cấu hình domain](#2.2)
+- [2.3 Test đồng bộ](#2.3)
+- [2.4 Cấu hình DNS](#2.4)
+#### [3 Tham khảo](#3)
+- [3.1 Liên hệ](#3.1)
+
+
+###<a name="I"></a>I. Giới thiệu
+
+
+#####<a name="1"></a>1 MariaDB.
     
    - MariaDB là gì?
    
@@ -53,7 +73,7 @@ I. Giới thiệu
         
         - Tìm hiểu thêm <a href="https://mariadb.com/kb/en/mariadb/mariadb-vs-mysql-features/" rel="nofollow">tại đây<a>
 
-2. Galera Cluster
+#####<a name="2"></a>2. Galera Cluster.
 
    - Galera Cluster là gì ?
 
@@ -109,7 +129,7 @@ I. Giới thiệu
        
        - Query log phải đổ vào file, không thể đổ vào table được.
        
-3. MariaDB MaxScale
+#####<a name="3"></a>3. MariaDB MaxScale.
 
    - Maxscale là gì ?
 
