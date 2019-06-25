@@ -33,12 +33,14 @@ make altinstall
 
 rm -f /usr/src/Python-3.6.8.tgz
 
-chmod -R +x /root/Max_scale/*.py
-
 echo "Enter hostname: "
 read server
 
 echo $server > /etc/hostname
+
+
+chmod -R +x /root/Max_scale/*.py
+
 
 echo 'install done!!! and reboot after 5s'
 
