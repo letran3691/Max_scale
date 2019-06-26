@@ -76,5 +76,7 @@ os.system("mysql -uroot -p -e \"show status like '%wsrep_cluster_size%';\"")
 print('show more info wsrep\n')
 os.system("mysql -uroot -p -e \"show status like 'wsrep%'\"")
 
+print('\nConfig done!!!!!!!')
+
 
 

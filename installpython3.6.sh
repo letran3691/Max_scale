@@ -1,11 +1,4 @@
 #!/usr/bin/env bash
-
-echo 'disable firewalld'
-sleep 3
-systemctl stop firewalld
-systemctl disable firewalld
-
-
 ## installation required GCC
 echo 'installation required GCC'
 sleep 4
@@ -38,8 +31,30 @@ read server
 
 echo $server > /etc/hostname
 
-
 chmod -R +x /root/Max_scale/*.py
+
+############## config server 2
+
+echo "Enter ip server 2: "
+read server2
+
+ssh root@$server2 'yum install epel-release -y ; yum install python36 -y; yum install python36-devel -y; yum install python36-setuptools -y'
+
+scp  /root/Max_scale/static_ip.py root@$server2:/root/
+
+ssh root@$server2 'chmod +x /root/static_ip.py'
+
+################# config server 3
+
+echo "Enter ip server 3: "
+
+read server3
+
+ssh root@$server3 'yum install epel-release -y ; yum install python36 -y; yum install python36-devel -y; yum install python36-setuptools -y'
+
+scp  /root/Max_scale/static_ip.py root@$server3:/root/
+
+ssh root@$server3 'chmod +x /root/static_ip.py'
 
 
 echo 'install done!!! and reboot after 5s'
