@@ -65,5 +65,26 @@ os.system("mysql -uroot -p -e \"show status like 'wsrep%'\"")
 
 print('\nConfig done!!!!!!!')
 
+################### create user cluster
+
+print('Create user cluster')
+time.sleep(3)
+usern = input('Enter username: ')
+passw = input('Enter password: ')
+
+p_root = input('\nEnter password sql root: ')
+
+
+# print("mysql -uroot -p"+p_root+ " -e \"select user,host,password from mysql.user;\"") ##### debug
+
+
+os.system("mysql -uroot -p"+p_root+ " -e \"create user"'\''+usern+'\''"@"'\''+server1+'\''"identified by "'\'' +passw+'\''';\"')
+os.system("mysql -uroot -p"+p_root+ " -e \"grant select on mysql.user to"'\''+usern+'\''"@"'\''+server1+'\''';\"')
+os.system("mysql -uroot -p"+p_root+ " -e  \"grant select on mysql.db to"'\''+usern+'\''"@"'\''+server1+'\''';\"')
+os.system("mysql -uroot -p"+p_root+ " -e \"grant select on mysql.tables_priv to"'\''+usern+'\''"@"'\''+server1+'\''';\"')
+os.system("mysql -uroot -p"+p_root+ " -e \"grant show databases on *.* to"'\''+usern+'\''"@"'\''+server1+'\''';\"')
+
+
+
 
 

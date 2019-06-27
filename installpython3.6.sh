@@ -3,7 +3,7 @@
 ## installation required GCC
 echo 'installation required GCC'
 sleep 4
-yum install gcc openssl-devel bzip2-devel wget -y
+yum install epel-release gcc openssl-devel bzip2-devel wget -y
 
 ## Download Python
 
