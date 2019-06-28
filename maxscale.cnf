@@ -17,7 +17,7 @@ protocol=MySQLBackend
 
 [server3]
 type=server
-ddress=server3
+address=server3
 port=3306
 protocol=MySQLBackend
 

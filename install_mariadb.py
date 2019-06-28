@@ -16,7 +16,7 @@ with fileinput.FileInput('/etc/selinux/config', inplace=True,backup='.bak') as  
     f1.close()
 
 
-print('\nConfig hostname server.')
+print('\nSet hostname server.')
 
 hostn = input('\nEnter hostname server: ')
 

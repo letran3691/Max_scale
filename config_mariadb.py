@@ -22,7 +22,10 @@ with open('/etc/hosts','a+') as f:
    f.close()
 
 #####transfer file hosts to servers
+print('Transfer file hosts to server2')
 os.system('scp /etc/hosts root@'+server2+':/etc/')
+
+print('Transfer file hosts to server3')
 os.system('scp /etc/hosts root@'+server3+':/etc/')
 
 
@@ -48,7 +51,9 @@ print('\ninfo cluster'+inf)
 
 time.sleep(4)
 
-os.system("mysql -uroot -p -e \"show status like '%wsrep_cluster_size%';\"")
+p_root = input('\nEnter password sql root: ')
+
+os.system("mysql -uroot -p"+p_root + " -e \"show status like '%wsrep_cluster_size%';\"")
 
 
 ############ start mariadb on servers
@@ -58,10 +63,10 @@ os.system(' ssh root@'+server3+ ' systemctl restart mariadb.service; systemctl e
 
 print('show info wsrep_cluster_size\n')
 time.sleep(3)
-os.system("mysql -uroot -p -e \"show status like '%wsrep_cluster_size%';\"")
+os.system("mysql -uroot -p"+p_root+ " -e \"show status like '%wsrep_cluster_size%';\"")
 
 print('show more info wsrep\n')
-os.system("mysql -uroot -p -e \"show status like 'wsrep%'\"")
+os.system("mysql -uroot -p"+p_root+ " -e \"show status like 'wsrep%';\"")
 
 print('\nConfig done!!!!!!!')
 
@@ -72,17 +77,13 @@ time.sleep(3)
 usern = input('Enter username: ')
 passw = input('Enter password: ')
 
-p_root = input('\nEnter password sql root: ')
-
-
 # print("mysql -uroot -p"+p_root+ " -e \"select user,host,password from mysql.user;\"") ##### debug
-
 
 os.system("mysql -uroot -p"+p_root+ " -e \"create user"'\''+usern+'\''"@"'\''+server1+'\''"identified by "'\'' +passw+'\''';\"')
 os.system("mysql -uroot -p"+p_root+ " -e \"grant select on mysql.user to"'\''+usern+'\''"@"'\''+server1+'\''';\"')
 os.system("mysql -uroot -p"+p_root+ " -e  \"grant select on mysql.db to"'\''+usern+'\''"@"'\''+server1+'\''';\"')
 os.system("mysql -uroot -p"+p_root+ " -e \"grant select on mysql.tables_priv to"'\''+usern+'\''"@"'\''+server1+'\''';\"')
-os.system("mysql -uroot -p"+p_root+ " -e \"grant show databases on *.* to"'\''+usern+'\''"@"'\''+server1+'\''';\"')
+# os.system("mysql -uroot -p"+p_root+ " -e \"grant show databases on *.* to"'\''+usern+'\''"@"'\''+server1+'\''';\"')
 
 
 

@@ -16,8 +16,9 @@ with fileinput.FileInput('/etc/selinux/config', inplace=True,backup='.bak') as  
 
 
 os.system('curl -sS https://downloads.mariadb.com/MariaDB/mariadb_repo_setup | sudo bash')
-os.system('yum -y install maxscale MariaDB-client')
+os.system('yum -y install maxscale MariaDB-client ')
 
+os.system('cp /root/maxscale.cnf /etc/')
 
 server1 = input('Enter ip server1: ')
 server2 = input('Enter ip server2: ')
@@ -27,30 +28,37 @@ user = input('Enter user cluster: ')
 passw = input('Enter password user cluster: ')
 
 
-
-with open('maxscale.cnf', 'U') as  f:
+print('exit file maxscale.cnf')
+time.sleep(2)
+with open('/etc/maxscale.cnf', 'r') as  f:
     newtext = f.read()
 
-    while 'ddress=server3' in newtext:
-        newtext=newtext.replace('ddress=server1',server1)
+    while 'ddress=server1' in newtext:
+        newtext=newtext.replace('ddress=server1','ddress='+server1)
+
+    while 'ddress=server2' in newtext:
+        newtext=newtext.replace('ddress=server2','ddress='+server2)
 
     while 'ddress=server3' in newtext:
-        newtext=newtext.replace('ddress=server2',server2)
-
-    while 'ddress=server3' in newtext:
-        newtext = newtext.replace('ddress=server3', server3)
+        newtext =newtext.replace('ddress=server3','ddress='+server3)
 
     while 'user=myuser' in newtext:
-        newtext = newtext.replace('user=myuser', user)
+        newtext =newtext.replace('user=myuser','user='+user)
 
     while 'passwd=mypwd' in newtext:
-        newtext = newtext.replace('passwd=mypwd', passw)
+        newtext =newtext.replace('passwd=mypwd','passwd='+passw)
 
 
-with open('maxscale.cnf', "w") as f:
+with open('/etc/maxscale.cnf', "w") as f:
     f.write(newtext)
+
+print('start maxscale service ')
 
 os.system('systemctl start maxscale.service')
 
+os.system('systemctl enable maxscale.service')
 
-print("mysql -h " +server1+' -u'+user+' -p'+passw +" \"show variables like 'hostname';\"")
+print('config done!!!!')
+time.sleep(2)
+print('check')
+os.system("mysql -h " +server1+' -u'+user+' -p'+passw +" \"show variables like 'hostname';\"")
