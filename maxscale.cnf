@@ -5,19 +5,19 @@ threads=1
 # Servers
 [server1]
 type=server
-address=192.168.0.181
+address=server1
 port=3306
 protocol=MySQLBackend
 
 [server2]
 type=server
-address=192.168.0.182
+address=server2
 port=3306
 protocol=MySQLBackend
 
 [server3]
 type=server
-address=192.168.0.183
+ddress=server3
 port=3306
 protocol=MySQLBackend
 

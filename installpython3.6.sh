@@ -52,4 +52,20 @@ scp  /root/Max_scale/install_mariadb.py root@$server3:/root/
 
 ssh root@$server3 'chmod +x /root/install_mariadb.py'
 
+
+
+############## config server Max_scale
+
+echo "Enter ip Max_scale: "
+read Max_scale
+
+ssh root@$Max_scale 'yum install epel-release -y ; yum install python36 -y; yum install python36-devel -y; yum install python36-setuptools -y'
+
+scp  /root/Max_scale/config_MaxScale.py root@$Max_scale:/root/
+
+ssh root@$Max_scale 'chmod +x /root/config_MaxScale.py'
+
+
+
+
 python3.6 install_mariadb.py
