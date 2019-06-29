@@ -16,6 +16,19 @@ with fileinput.FileInput('/etc/selinux/config', inplace=True,backup='.bak') as  
     f1.close()
 
 
+############################################################################### install mariadb
+print('\nBegin install Mariadb\n')
+time.sleep(2)
+os.system('curl -sS https://downloads.mariadb.com/MariaDB/mariadb_repo_setup | sudo bash')
+os.system('yum -y install MariaDB-server')
+os.system('systemctl start mariadb.service')
+print('\nConfig password root sql\n')
+time.sleep(2)
+os.system('mysql_secure_installation')
+os.system('systemctl stop mariadb.service')
+
+###############################################################################
+
 print('\nSet hostname server.')
 
 hostn = input('\nEnter hostname server: ')
@@ -24,33 +37,20 @@ with open("/etc/hostname",'w') as f:
     f.write(hostn)
     f.close()
 
-
 ############################################################################### get gateway
 
 gw = os.popen("ip route |grep default | awk '{print $3}'").read()
-
 
 ############################################################################### get ip
 
 ip_ = os.popen("ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*).*/\\2/p'").read().split('\n')
 ip_server = ip_[0]
 
-
 ############################################################################### get netmask
 
 net = os.popen("ip -o -f inet addr show | awk '/scope global/{sub(/[^.]+\//,\"0/\",$4);print $4}'").read().split('\n')
 net_ = net[0]
 netmask = net_.split('/')[-1]
-
-############################################################################### install mariadb
-
-os.system('curl -sS https://downloads.mariadb.com/MariaDB/mariadb_repo_setup | sudo bash')
-os.system('yum -y install MariaDB-server')
-os.system('systemctl start mariadb.service')
-os.system('mysql_secure_installation')
-
-os.system('systemctl stop mariadb.service')
-
 
 ################################################################################ list interfaces
 
@@ -63,13 +63,14 @@ inf = (inf_[0])
 ################################################################################# config network interface
 n = ''
 
-while True:
-
-    print('\nEnter 1 use default ')
-    print('Enter 2 to modify')
-    print('Enter Q to reboot server')
-
-    n = input('\nPlease enter option: ')
+while n != 'c':
+    print('\n+ {:-<6} + {:-^15} + '.format('',''))
+    print('| {:<20} | '.format('please enter your option'.title()))
+    print('| {:<24} | '.format('[1]enter 1 default '))
+    print('| {:<25} | '.format('[2]enter 2 to modify '))
+    print('| {:<25} | '.format('[c]enter C to reboot '))
+    print('+ {:-<6} + {:-^15} + '.format('',''))
+    n = input('\nEnter option: '.title())
 
     if n == '1':
 
@@ -86,7 +87,8 @@ while True:
             f1.write('\nDNS2=8.8.8.8')
             f1.close()
         os.system('systemctl restart network')
-        print('\nConfig network done!!!! plz hit Q to reboot server.')
+        print('\nConfig network done!!! Plz hit C to reboot server'.title())
+
 
     elif n == '2':
 
@@ -107,23 +109,16 @@ while True:
             f1.write('\nDNS1='+ gw)
             f1.write('\nDNS2=8.8.8.8')
             f1.close()
-
         os.system('systemctl restart network')
+        print('\nConfig network done!!! Plz hit C to reboot server'.title())
 
-        print('\nConfig network done!!!! plz hit Q to reboot server.')
-
-    elif n == 'q':
-        print('\nreboot server after 3s')
+    elif n == 'c':
+        print('reboot after 3s')
         time.sleep(3)
         os.system('reboot')
 
     else:
-        print("ERROR!!! Dont't have interface\n")
+        print("\n\ti don't know your option!!!,".title(),'Please enter try!!!'.upper())
 
-        err = os.listdir('/sys/class/net/')
-
-        print(str(err))
-
-        exit(0)
 
 

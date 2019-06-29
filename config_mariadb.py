@@ -1,5 +1,6 @@
 import os,subprocess,time,fileinput
 
+###################################################################### get ip server1
 
 server1_ = os.popen("ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*).*/\\2/p'").read().split('\n')
 server1 = server1_[0]
@@ -45,7 +46,7 @@ with fileinput.FileInput('/etc/my.cnf.d/server.cnf', inplace=True,backup='.bak')
     f2.close()
 
 ######################################################################### transfer file config wsrep_cluster to servers
-print('\nEnter password root server3.')
+print('\nEnter password root server2.')
 os.system('scp /etc/my.cnf.d/server.cnf root@'+server2+':/etc/my.cnf.d/')
 ###########################################################################
 print('\nEnter password root server3.')
@@ -58,7 +59,7 @@ os.system('galera_new_cluster')
 inf = os.popen('ps -f -u mysql | more').read()
 print('\ninfo cluster'+inf)
 time.sleep(4)
-p_root = input('\nEnter password sql root: ')
+p_root = input('\nEnter password root sql : ')
 os.system("mysql -uroot -p"+p_root + " -e \"show status like '%wsrep_cluster_size%';\"")
 
 
@@ -81,15 +82,14 @@ os.system("mysql -uroot -p"+p_root+ " -e \"show status like 'wsrep%';\"")
 
 print('\nConfig done!!!!!!!')
 
-################################################################################ create user cluster
+############################################################################### create user cluster
 
-print('Create user cluster')
+print('\nCreate user cluster')
 time.sleep(3)
-usern = input('Enter username: ')
+usern = input('\nEnter username: ')
 passw = input('Enter password: ')
 
 # print("mysql -uroot -p"+p_root+ " -e \"select user,host,password from mysql.user;\"") ##### debug
-
 
 os.system("mysql -uroot -p"+p_root+ " -e \"create user"'\''+usern+'\''"@"'\''+Max_scale+'\''"identified by "'\'' +passw+'\''';\"')
 os.system("mysql -uroot -p"+p_root+ " -e \"grant select on mysql.user to"'\''+usern+'\''"@"'\''+Max_scale+'\''';\"')
@@ -100,6 +100,39 @@ os.system("mysql -uroot -p"+p_root+ " -e \"grant show databases on *.* to"'\''+u
 print('\nShow user')
 time.sleep(2)
 os.system("mysql -uroot -p"+p_root+ " -e \"select user,host,password from mysql.user;\"")
+
+print('\nTest sync. Auto create a database name "Cluster_test" \n')
+time.sleep(2)
+os.system("mysql -uroot -p"+p_root+ " -e \"create database Cluster_test;\"")
+
+print('\nCreate databases done!!!!')
+print('\nShow database on server1.')
+time.sleep(2)
+os.system("mysql -uroot -p"+p_root+ " -e \"show databases;\"")
+
+print('\nShow database on server2.')
+print('\nEnter password root server2')
+time.sleep(2)
+os.system('ssh root@'+server2+ ' \'mysql -uroot -p'+p_root+ " -e \"show databases;\"\'")
+
+print('\nShow database on server3.')
+print('\nEnter password root server3')
+time.sleep(2)
+os.system('ssh root@'+server3+ ' \'mysql -uroot -p'+p_root+ " -e \"show databases;\"\'")
+
+print('\nDelete database Cluster_test')
+time.sleep(2)
+os.system("mysql -uroot -p"+p_root+ " -e \"DROP DATABASE Cluster_test;\"")
+
+print('\nDelete databes done!!!')
+print('\nshow database again')
+os.system("mysql -uroot -p"+p_root+ " -e \"show databases;\"")
+print('\nConfig Cluster done'.upper())
+
+
+
+
+
 
 
 
