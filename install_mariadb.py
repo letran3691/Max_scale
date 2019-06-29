@@ -25,24 +25,24 @@ with open("/etc/hostname",'w') as f:
     f.close()
 
 
-##### get gateway
+############################################################################### get gateway
 
 gw = os.popen("ip route |grep default | awk '{print $3}'").read()
 
 
-##### get ip
+############################################################################### get ip
 
 ip_ = os.popen("ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*).*/\\2/p'").read().split('\n')
 ip_server = ip_[0]
 
 
-#### get netmask
+############################################################################### get netmask
 
 net = os.popen("ip -o -f inet addr show | awk '/scope global/{sub(/[^.]+\//,\"0/\",$4);print $4}'").read().split('\n')
 net_ = net[0]
 netmask = net_.split('/')[-1]
 
-###### install mariadb
+############################################################################### install mariadb
 
 os.system('curl -sS https://downloads.mariadb.com/MariaDB/mariadb_repo_setup | sudo bash')
 os.system('yum -y install MariaDB-server')
@@ -52,7 +52,7 @@ os.system('mysql_secure_installation')
 os.system('systemctl stop mariadb.service')
 
 
-#### list interfaces
+################################################################################ list interfaces
 
 inf_ = os.popen('ls /sys/class/net/').read().split()
 
@@ -60,7 +60,7 @@ print('\nYour interfaces: '+str(inf_)+'\n')
 
 inf = (inf_[0])
 
-################# config network interface
+################################################################################# config network interface
 n = ''
 
 while True:
