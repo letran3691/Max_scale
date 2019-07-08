@@ -9,7 +9,7 @@ Getting Started with MariaDB Galera and MariaDB MaxScale on CentOS 7.x
 - [2 Galera Cluster](#2)
 - [3 MariaDB MaxScale](#3)
 
-### [II. Cài đặt](#2)
+### [II. Cài đặt và cấu hình](#II)
 - [2.1 Cài đặt python3.6](#2.1)
 - [2.2 Install Mariadb](#2.2)
 - [2.3 Cầu hình cluster](#2.3)
@@ -163,9 +163,9 @@ ________________________________________________________________
        - Giảm downtime, MaxScale tự động failover và đồng bộ.
 
 
-###<a name=2><a/> II Cài Đặt và cấu hình.
+### <a name=II><a/> II Cài Đặt và cấu hình.
 
-####<a name=2.1><a/> 2.1 Cài đặt Python3.x
+#### <a name=2.1><a/> 2.1 Cài đặt Python3.x
 
    - Sơ đồ
     
