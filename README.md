@@ -165,8 +165,6 @@ ________________________________________________________________
 
 ### <a name=II><a/> II Cài Đặt và cấu hình.
 
-#### <a name=2.1><a/> 2.1 Cài đặt Python3.x
-
    - Sơ đồ
     
         ![image](https://user-images.githubusercontent.com/19284401/60801900-03151d00-a1a2-11e9-9089-8e767ddc1cf4.png)
@@ -175,6 +173,8 @@ ________________________________________________________________
    - Trước khi bắt đầu các bạn cấu chú ý.
     
         - Đây là cấu hình tối thiếu nhất để có thể chạy được cluser và HAproxy. Các bạn cần đọc thêm ở phần tham khảo dưới cuối đến có thể cấu hình sâu hơn và nắm vững hơn trong qua trình vận hành hệ thống.
+        
+#### <a name=2.1><a/> 2.1 Cài đặt Python3.x        
 
    - Phân quyền cho file
     
