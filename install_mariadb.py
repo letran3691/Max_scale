@@ -56,6 +56,9 @@ netmask = net_.split('/')[-1]
 
 inf_ = os.popen('ls /sys/class/net/').read().split()
 
+print('\nConfig network')
+time.sleep(2)
+
 print('\nYour interfaces: '+str(inf_)+'\n')
 
 inf = (inf_[0])

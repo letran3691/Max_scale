@@ -66,7 +66,7 @@ echo $'\ninstall python3.x on Max_scale.'
 sleep 3
 echo 'Enter ip Max_scale: '
 read Max_scale
-ececho $'\ninstall python3.x on Max_scale'
+echo $'\ninstall python3.x on Max_scale'
 echo $'\nEnter password root Max_scale.'
 ssh root@$Max_scale 'yum install -y epel-release; yum install -y python36 python36-devel python36-setuptools'
 
@@ -92,10 +92,11 @@ ssh root@$Max_scale 'chmod +x /root/config_MaxScale.py'
 echo $'\nChange hostname and reboot Max_scale.'
 echo $'\nEnter password root Max_scale.'
 ssh root@$Max_scale 'echo 'Max_scale' > /etc/hostname; reboot'
+echo $'\nInstall python on Max_scale done!!!'
+sleep 3
 
 ######################################################################################
 
-echo $'\nInstall python on Max_scale done!!!'
-sleep 3
+
 echo $'\ninstall mariadb on server 1'
 python3.6 /root/Max_scale/install_mariadb.py

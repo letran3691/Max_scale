@@ -15,7 +15,7 @@ with fileinput.FileInput('/etc/selinux/config', inplace=True,backup='.bak') as  
     f1.close()
 
 
-############################################################################## get ip
+############################################################################# get ip
 
 ip_ = os.popen("ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*).*/\\2/p'").read().split('\n')
 ip_server = ip_[0]
@@ -116,7 +116,7 @@ user = input('Enter user cluster: ')
 passw = input('Enter password user cluster: ')
 
 
-print('exit file maxscale.cnf')
+print('edit file maxscale.cnf')
 time.sleep(2)
 with open('/etc/maxscale.cnf', 'r') as  f:
     newtext = f.read()
@@ -148,4 +148,6 @@ os.system('systemctl enable maxscale.service')
 
 print('\nConfig done!!!!')
 time.sleep(2)
+
+os.system('mysql -h ' +ip_server+ ' -u'+user+ ' -p'+passw)
 
