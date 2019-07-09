@@ -45,3 +45,13 @@ wsrep_sst_method=rsync
 # use this group for options that older servers don't understand
 [mariadb-10.4]
 
+
+
+
+## fix bug
+
+### check join vào cluster. mysql -u root -p -e "SHOW STATUS LIKE 'wsrep_cluster_size'"
+### Node sql nào bị Cuối cùng thì bạn khởi động lại đầu tiên ( Cách check node nào off Cuối cùng trong file /var/lib/mysql/grastate.dat trên tất cả các node xem trường seqno số nào lớn nhất thì đó là node tắt đầu tiên, và ngược lại. Nếu tất cả đều là số âm thì set 1 node bất kì là 1 sau đó khởi động node vừa set là 1 đó đầu tiên.
+### Trường hợp mất cluster k tự join vào được, stop mysql trên tất cả các node sau đó chạy lệnh galera_new_cluster trên node có seqno lớn nhất . Kiểm tra lại bằng lệnh mysql -u root -p -e "SHOW STATUS LIKE 'wsrep_cluster_size'"
+
+
