@@ -66,7 +66,7 @@ os.system("mysql -uroot -p"+p_root + " -e \"show status like '%wsrep_cluster_siz
 ########################################################################### start mariadb on servers
 print('\nStart sql on server2.')
 print('\nEnter password root server2.')
-os.system(' ssh root@'+server2+ ' systemctl restart mariadb.service; systemctl enable mariadb.service')
+os.system(' ssh root@'+server2+ ' systemctl restart mariadb.service &&  systemctl enable mariadb.service')
 
 
 print('\nStart sql on server3.')

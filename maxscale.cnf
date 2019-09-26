@@ -22,37 +22,37 @@ port=3306
 protocol=MySQLBackend
 
 # Monitoring for the servers
-[Galera Monitor]
+[Galera-Monitor]
 type=monitor
 module=galeramon
 servers=server1,server2,server3
 user=myuser
-passwd=mypwd
+password=mypwd
 monitor_interval=1000
 
 # Galera router service
-[Galera Service]
+[Galera-Service]
 type=service
 router=readwritesplit
 servers=server1,server2,server3
 user=myuser
-passwd=mypwd
+password=mypwd
 
 # MaxAdmin Service
-[MaxAdmin Service]
+[MaxAdmin-Service]
 type=service
 router=cli
 
-# Galera cluster listener
+# Galera-cluster listener
 [Galera Listener]
 type=listener
-service=Galera Service
+service=Galera-Service
 protocol=MySQLClient
 port=3306
 
 # MaxAdmin listener
-[MaxAdmin Listener]
+[MaxAdmin-Listener]
 type=listener
-service=MaxAdmin Service
+service=MaxAdmin-Service
 protocol=maxscaled
 socket=default
