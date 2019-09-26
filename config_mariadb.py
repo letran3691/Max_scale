@@ -2,12 +2,12 @@ import os,subprocess,time,fileinput
 
 ###################################################################### get ip server1
 
-server1_ = os.popen("ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*).*/\\2/p'").read().split('\n')
-server1 = server1_[0]
+# server1_ = os.popen("ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*).*/\\2/p'").read().split('\n')
+# server1 = server1_[0]
 host = subprocess.check_output('cat /etc/hostname',shell=True,universal_newlines=True)
 host_n1 =host.rstrip('\n')
 
-
+server1 = input('\nEnter ip server1: ')
 server2 = input('\nEnter ip server2: ')
 host_n2 = input('Enter hostname server2: ')
 
