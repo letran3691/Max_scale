@@ -1,8 +1,6 @@
-# Globals
 [maxscale]
-threads=1
+threads=4
 
-# Servers
 [server1]
 type=server
 address=server1
@@ -21,38 +19,65 @@ address=server3
 port=3306
 protocol=MySQLBackend
 
-# Monitoring for the servers
-[Galera-Monitor]
+[Galera_Monitor]
 type=monitor
 module=galeramon
 servers=server1,server2,server3
 user=myuser
 password=mypwd
-monitor_interval=1000
+monitor_interval=10000
+disable_master_failback=1
 
-# Galera router service
-[Galera-Service]
+[qla]
+type=filter
+module=qlafilter
+options=case,extended
+filebase=/tmp/SqlQueryLog
+
+[fetch]
+type=filter
+module=regexfilter
+match=fetch
+replace=select
+
+[RW]
 type=service
 router=readwritesplit
 servers=server1,server2,server3
 user=myuser
 password=mypwd
+max_slave_connections=100%
 
-# MaxAdmin Service
-[MaxAdmin-Service]
+[RR]
+type=service
+router=readconnroute
+router_options=synced
+servers=server1,server2,server3
+user=myuser
+password=mypwd
+
+
+[CLI]
 type=service
 router=cli
 
-# Galera-cluster listener
-[Galera Listener]
+[RWlistener]
 type=listener
-service=Galera-Service
+service=RW
 protocol=MySQLClient
-port=3306
+address=maxscale
+port=3307
 
-# MaxAdmin listener
-[MaxAdmin-Listener]
+[RRlistener]
 type=listener
-service=MaxAdmin-Service
+service=RR
+protocol=MySQLClient
+address=maxscale
+port=3308
+
+[CLI-Listener]
+type=listener
+service=CLI
 protocol=maxscaled
-socket=default
+address=127.0.0.1
+port=6603

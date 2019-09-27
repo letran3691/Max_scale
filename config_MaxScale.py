@@ -17,8 +17,8 @@ with fileinput.FileInput('/etc/selinux/config', inplace=True,backup='.bak') as  
 
 ############################################################################# get ip
 
-ip_ = os.popen("ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*).*/\\2/p'").read().split('\n')
-ip_server = ip_[0]
+# ip_ = os.popen("ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*).*/\\2/p'").read().split('\n')
+# ip_server = ip_[0]
 
 
 ############################################################################## get netmask
@@ -111,6 +111,7 @@ os.system('cp /root/maxscale.cnf /etc/')
 server1 = input('Enter ip server1: ')
 server2 = input('Enter ip server2: ')
 server3 = input('Enter ip server3: ')
+ip_server = input('Enter ip maxscale: ')
 
 user = input('Enter user cluster: ')
 passw = input('Enter password user cluster: ')
@@ -135,6 +136,9 @@ with open('/etc/maxscale.cnf', 'r') as  f:
 
     while 'passwd=mypwd' in newtext:
         newtext =newtext.replace('passwd=mypwd','passwd='+passw)
+
+    while 'address=maxscale' in newtext:
+        newtext =newtext.replace('address=maxscale','maxscale='+ip_server)
 
 
 with open('/etc/maxscale.cnf', "w") as f:

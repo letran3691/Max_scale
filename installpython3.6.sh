@@ -2,7 +2,7 @@
 
 echo 'install python3.x'
 
-yum install -y epel-release; yum install -y python36 python36-devel python36-setuptools
+yum install -y epel-release; yum install -y python36 python36-devel python36-setuptools python36-pip
 
 chmod -R +x /root/Max_scale/config_mariadb.py
 chmod -R +x /root/Max_scale/install_mariadb.py
@@ -19,7 +19,7 @@ echo 'install python3.x on server2'
 sleep 2
 echo $'\nEnter password root server2.'
 
-ssh root@$server2 'yum install -y epel-release; yum install -y python36 python36-devel python36-setuptools'
+ssh root@$server2 'yum install -y epel-release; yum install -y python36 python36-devel python36-setuptools python36-pip'
 
 ####################################################################################
 
@@ -45,7 +45,7 @@ read server3
 echo $'\ninstall python3.x on server3'
 sleep 3
 echo $'\nEnter password root server3.'
-ssh root@$server3 'yum install -y epel-release; yum install -y python36 python36-devel python36-setuptools '
+ssh root@$server3 'yum install -y epel-release; yum install -y python36 python36-devel python36-setuptools python36-pip'
 
 ##################################################################################
 
@@ -68,7 +68,7 @@ echo 'Enter ip Max_scale: '
 read Max_scale
 echo $'\ninstall python3.x on Max_scale'
 echo $'\nEnter password root Max_scale.'
-ssh root@$Max_scale 'yum install -y epel-release; yum install -y python36 python36-devel python36-setuptools'
+ssh root@$Max_scale 'yum install -y epel-release; yum install -y python36 python36-devel python36-setuptools python36-pip'
 
 ######################################################################################
 
