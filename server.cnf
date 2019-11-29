@@ -11,28 +11,33 @@
 # this is only for the mysqld standalone daemon
 [mysqld]
 
-#
+bind-address=0.0.0.0
+innodb_force_recovery = 1
+
 # * Galera-related settings
 #
 [galera]
 # Mandatory settings
+
+binlog_format=ROW
+default-storage-engine=innodb
+innodb_autoinc_lock_mode=2
+bind-address=0.0.0.0
+
+# Galera Provider Configuration
 wsrep_on=ON
 wsrep_provider=/usr/lib64/galera-4/libgalera_smm.so
-wsrep_cluster_address=gcomm://
-binlog_format=row
-default_storage_engine=InnoDB
-innodb_autoinc_lock_mode=2
-wsrep_sst_method=rsync
-#
-# Allow server to accept connections on all interfaces.
-#
-#bind-address=0.0.0.0
-#
-# Optional setting
-#wsrep_slave_threads=1
-#innodb_flush_log_at_trx_commit=0
 
-# this is only for embedded server
+# Galera Cluster Configuration
+wsrep_cluster_name='emobi'
+
+#wsrep_cluster_address="gcomm://"
+wsrep_cluster_address=gcomm://
+
+# Galera Synchronization Configuration
+wsrep_sst_method=rsync
+
+
 [embedded]
 
 # This group is only read by MariaDB servers, not by MySQL.
@@ -44,8 +49,6 @@ wsrep_sst_method=rsync
 # If you use the same .cnf file for MariaDB of different versions,
 # use this group for options that older servers don't understand
 [mariadb-10.4]
-
-
 
 
 ## fix bug

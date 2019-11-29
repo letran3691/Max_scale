@@ -4,6 +4,8 @@ import os,subprocess,time,fileinput
 
 # server1_ = os.popen("ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*).*/\\2/p'").read().split('\n')
 # server1 = server1_[0]
+os.system("ssh-keygen -q -t rsa -f ~/.ssh/id_rsa -N ''")
+
 host = subprocess.check_output('cat /etc/hostname',shell=True,universal_newlines=True)
 host_n1 =host.rstrip('\n')
 
@@ -15,6 +17,11 @@ server3 = input('\nEnter ip server3: ')
 host_n3 = input('Enter hostname server3: ')
 
 Max_scale = input('\nEnter ip Max_scale: ')
+
+os.system("ssh - copy - id - i / root /.ssh / id_rsa.pub root@"+server2)
+os.system("ssh - copy - id - i / root /.ssh / id_rsa.pub root@"+server3)
+os.system("ssh - copy - id - i / root /.ssh / id_rsa.pub root@"+Max_scale)
+
 
 ########################################################################config file hosts
 with open('/etc/hosts','a+') as f:
@@ -30,14 +37,18 @@ print('\nTransfer file hosts to server2')
 print('\nEnter password root server2.')
 time.sleep(2)
 os.system('scp /etc/hosts root@'+server2+':/etc/')
+os.system('scp /root/Max_scale/my.cnf root@'+server2+':/etc/')
 
 print('\nTransfer file hosts to server3')
 print('\nEnter password root server3.')
 time.sleep(2)
 os.system('scp /etc/hosts root@'+server3+':/etc/')
+os.system('scp /root/Max_scale/my.cnf root@'+server3+':/etc/')
 
 
 os.system('cp /root/Max_scale/server.cnf /etc/my.cnf.d/')
+os.system('scp /root/Max_scale/my.cnf /etc/')
+
 
 ######################################################################## config wsrep_cluster
 with fileinput.FileInput('/etc/my.cnf.d/server.cnf', inplace=True,backup='.bak') as  f2:
@@ -55,7 +66,7 @@ os.system('scp /etc/my.cnf.d/server.cnf root@'+server3+':/etc/my.cnf.d/')
 os.system('systemctl stop mariadb.service')
 print('start cluster on server1\n')
 time.sleep(3)
-os.system('galera_new_cluster')
+os.system(' systemctl stop mariadb ; pkill -9 mysqld ; galera_new_cluster')
 inf = os.popen('ps -f -u mysql | more').read()
 print('\ninfo cluster'+inf)
 time.sleep(4)
@@ -66,12 +77,12 @@ os.system("mysql -uroot -p"+p_root + " -e \"show status like '%wsrep_cluster_siz
 ########################################################################### start mariadb on servers
 print('\nStart sql on server2.')
 print('\nEnter password root server2.')
-os.system(' ssh root@'+server2+ ' systemctl restart mariadb.service &&  systemctl enable mariadb.service')
+os.system(' ssh root@'+server2+ ' systemctl stop mariadb ; pkill -9 mysqld ; systemctl restart mariadb ; systemctl enable mariadb.service')
 
 
 print('\nStart sql on server3.')
 print('\nEnter password root server3.')
-os.system(' ssh root@'+server3+ ' systemctl restart mariadb.service; systemctl enable mariadb.service')
+os.system(' ssh root@'+server3+ ' systemctl stop mariadb ; pkill -9 mysqld ; systemctl restart mariadb; systemctl enable mariadb.service')
 
 print('show info wsrep_cluster_size\n')
 time.sleep(3)
@@ -83,6 +94,7 @@ os.system("mysql -uroot -p"+p_root+ " -e \"show status like 'wsrep%';\"")
 print('\nConfig done!!!!!!!')
 
 ############################################################################### create user cluster
+
 
 print('\nCreate user cluster')
 time.sleep(3)
@@ -133,7 +145,7 @@ print('\nConfig Cluster done'.upper())
 ## fix bug
 
 ### check join vào cluster. mysql -u root -p -e "SHOW STATUS LIKE 'wsrep_cluster_size'"
-### Node sql nào bị tắt đầu tiên  thì bạn khởi động lại đầu tiên ( Cách check node nào off đầu tiên trong file /var/lib/mysql/grastate.dat trên tất cả các node xem trường seqno số nào lớn nhất thì đó là node tắt đầu tiên. Nếu tất cả đều là số âm thì set 1 node bất kì là 1 sau đó khởi động node vừa set là 1 đó đầu tiên.
+### Node sql nào bị tắt đầu tiên  thì bạn khởi động lại cuối cùng ( Cách check node nào off đầu tiên trong file /var/lib/mysql/grastate.dat trên tất cả các node xem trường seqno số nào lớn nhất thì đó là node tắt đầu tiên. Nếu tất cả đều là số âm thì set 1 node bất kì là 1 sau đó khởi động node vừa set là 1 đó đầu tiên.
 ### Trường hợp mất cluster k tự join vào được, stop mysql trên tất cả các node sau đó chạy lệnh galera_new_cluster trên node có seqno lớn nhất . Kiểm tra lại bằng lệnh mysql -u root -p -e "SHOW STATUS LIKE 'wsrep_cluster_size'"
 
 
