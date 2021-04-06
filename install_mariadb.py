@@ -9,7 +9,7 @@ os.system('systemctl stop firewalld')
 os.system('systemctl disable firewalld')
 
 
-with fileinput.FileInput('/etc/selinux/config', inplace=True,backup='.bak') as  f1:
+with fileinput.FileInput('/etc/selinux/sql', inplace=True,backup='.bak') as  f1:
 
     for line in f1:
        print(line.replace('SELINUX=enforcing','SELINUX=disabled'),end='')
@@ -64,7 +64,7 @@ print('\nYour interfaces: '+str(inf_)+'\n')
 
 inf = (inf_[0])
 
-################################################################################# config network interface
+################################################################################# sql network interface
 n = ''
 
 while n != 'c':

@@ -10,7 +10,7 @@ echo $'\nInstall python on server 1 done!!!'
 
 sleep 3
 
-#################################################################################### config server 2
+#################################################################################### sql server 2
 echo $'\nConfig on server 2.'
 sleep 3
 echo "Enter ip server 2: "
@@ -35,7 +35,7 @@ ssh root@$server2 'chmod +x /root/install_mariadb.py'
 
 echo $'\nInstall python on server 2 done!!!'
 sleep 3
-####################################################################################### config server 3
+####################################################################################### sql server 3
 
 echo $'\nConfig on server 3.'
 sleep 3
@@ -60,7 +60,7 @@ echo $'\nnEnter password root server3.'
 ssh root@$server3 'chmod +x /root/install_mariadb.py'
 echo $'\nInstall python on server 3 done!!!'
 sleep 3
-###################################################################################### config server Max_scale
+###################################################################################### sql server Max_scale
 
 echo $'\ninstall python3.x on Max_scale.'
 sleep 3

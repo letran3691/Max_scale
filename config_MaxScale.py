@@ -8,7 +8,7 @@ os.system('systemctl stop firewalld')
 os.system('systemctl disable firewalld')
 
 
-with fileinput.FileInput('/etc/selinux/config', inplace=True,backup='.bak') as  f1:
+with fileinput.FileInput('/etc/selinux/sql', inplace=True,backup='.bak') as  f1:
 
     for line in f1:
        print(line.replace('SELINUX=enforcing','SELINUX=disabled'),end='')
@@ -100,7 +100,7 @@ while n != 'c':
     else:
         print("\n\ti don't know your option!!!,".title(),'Please enter try!!!'.upper())
 
-############################################################################ Install && config Max_Scale
+############################################################################ Install && sql Max_Scale
 
 print('\nBegin install Maxscale and Mariadb-client\n')
 os.system('curl -sS https://downloads.mariadb.com/MariaDB/mariadb_repo_setup | sudo bash')

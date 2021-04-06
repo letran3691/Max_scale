@@ -23,7 +23,7 @@ os.system("ssh - copy - id - i / root /.ssh / id_rsa.pub root@"+server3)
 os.system("ssh - copy - id - i / root /.ssh / id_rsa.pub root@"+Max_scale)
 
 
-########################################################################config file hosts
+########################################################################sql file hosts
 with open('/etc/hosts','a+') as f:
 
    f.write('\n'+ server1 +' '+ host_n1)
@@ -50,13 +50,13 @@ os.system('cp /root/Max_scale/server.cnf /etc/my.cnf.d/')
 os.system('scp /root/Max_scale/my.cnf /etc/')
 
 
-######################################################################## config wsrep_cluster
+######################################################################## sql wsrep_cluster
 with fileinput.FileInput('/etc/my.cnf.d/server.cnf', inplace=True,backup='.bak') as  f2:
     for line in f2:
        print(line.replace('wsrep_cluster_address=gcomm://','wsrep_cluster_address=gcomm://'+server1+','+server2+','+server3),end='')
     f2.close()
 
-######################################################################### transfer file config wsrep_cluster to servers
+######################################################################### transfer file sql wsrep_cluster to servers
 print('\nEnter password root server2.')
 os.system('scp /etc/my.cnf.d/server.cnf root@'+server2+':/etc/my.cnf.d/')
 ###########################################################################
@@ -146,9 +146,11 @@ print('\nConfig Cluster done'.upper())
 
 ### check join vào cluster. mysql -u root -p -e "SHOW STATUS LIKE 'wsrep_cluster_size'"
 ### Node sql nào bị tắt đầu tiên  thì bạn khởi động lại cuối cùng ( Cách check node nào off đầu tiên trong file /var/lib/mysql/grastate.dat trên tất cả các node xem trường seqno số nào lớn nhất thì đó là node tắt đầu tiên. Nếu tất cả đều là số âm thì set 1 node bất kì là 1 sau đó khởi động node vừa set là 1 đó đầu tiên.
-### Trường hợp mất cluster k tự join vào được, stop mysql trên tất cả các node sau đó chạy lệnh galera_new_cluster trên node có seqno lớn nhất . Kiểm tra lại bằng lệnh mysql -u root -p -e "SHOW STATUS LIKE 'wsrep_cluster_size'"
+### Trường hợp mất cluster k tự join vào được, stop mysql trên tất cả các node sau đó chạy lệnh galera_new_cluster trên node có seqno lớn nhất, các node còn lại để -1. Kiểm tra lại bằng lệnh mysql -u root -p -e "SHOW STATUS LIKE 'wsrep_cluster_size'"
 
+##### fix lỗi "Missing MLOG_CHECKPOINT at...."  chạy lệnh  rm -f /var/lib/mysql/ib_logfile*
 
+######## start member timeout: "TimeoutStartSec=0 TimeoutStopSec=0" in block [service]  /etc/systemd/system/multi-user.target.wants/mariadb.service
 
 
 
