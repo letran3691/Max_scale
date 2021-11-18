@@ -152,6 +152,10 @@ print('\nConfig Cluster done'.upper())
 
 ######## start member timeout: "TimeoutStartSec=0 TimeoutStopSec=0" in block [service]  /etc/systemd/system/multi-user.target.wants/mariadb.service
 
+####physical backup using mariabackup
+###########mariabackup --backup --target-dir=/home/mariabackup --user root --password xxxxxxxxxxxxxx
+
+
 
 
 
